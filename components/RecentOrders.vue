@@ -8,9 +8,9 @@
       <table class="w-full border-collapse">
         <thead>
           <tr class="border-b text-left text-xs">
-            <th class="p-4 font-medium uppercase text-muted-foreground">Product</th>
-            <th class="p-4 font-medium uppercase text-muted-foreground">Payment</th>
-            <th class="p-4 font-medium uppercase text-muted-foreground">Status</th>
+            <th class="p-4 font-medium uppercase text-muted-foreground">STT</th>
+            <th class="p-4 font-medium uppercase text-muted-foreground">Username</th>
+            <th class="p-4 font-medium uppercase text-muted-foreground"></th>
             <th class="p-4 font-medium uppercase text-muted-foreground"></th>
           </tr>
         </thead>

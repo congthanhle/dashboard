@@ -1,36 +1,45 @@
 import type { ActionTree, Commit } from "vuex/types/index.js";
 import type { UsersState } from "~/store/User/state";
 import type { RootState } from "~/store/index";
-const { registerUser } = useFirebaseAuth();
-
-// import {
-//   queryByCollection,
-//   addItem,
-//   editItem,
-//   deleteItem,
-// } from "~/server/lib/firestore";
+import {
+  queryByCollection,
+  addItem,
+  editItem,
+  deleteItem,
+  queryById,
+} from "~/server/lib/firestore";
+const { logInUser, registerUser, signOutUser } = useFirebaseAuth();
 
 const actions: ActionTree<UsersState, RootState> = {
   LOGIN: ({ commit }: { commit: Commit }, payload) => {
     const { email, password } = payload;
-    const state = registerUser(email, password);
+    const state = logInUser(email, password);
     return state;
   },
-  FETCH_PRODUCTS: ({ commit }: { commit: Commit }) => {
-    // const products = queryByCollection('products')
-    // commit("SET_PRODUCTS", products);
+  LOGOUT: ({ commit }: { commit: Commit }) => {
+    const user = {
+      id: "",
+      username: "",
+      avatar: "",
+      email: "",
+      timestamp: 0,
+    };
+    const state = signOutUser();
+    commit("SET_USER", user);
+    return state;
   },
-  ADD_PRODUCT: ({ commit }: { commit: Commit }, item) => {
-    // const addState = addItem("products", item);
-    // return addState;
+  REGISTER: ({ commit }: { commit: Commit }, payload) => {
+    const state = registerUser(payload);
+    return state;
   },
-  EDIT_PRODUCT: ({ commit }: { commit: Commit }, item) => {
-    // const editState = editItem("products", item.id, item);
-    // return editState;
+  ADD_USER: ({ commit }: { commit: Commit }, payload) => {
+    const { id, ...doc } = payload;
+    addItem("users", doc, id);
   },
-  DELETE_PRODUCT: ({ commit }: { commit: Commit }, id) => {
-    // const deleteState = deleteItem("products", id);
-    // return deleteState;
+  GET_USER: async ({ commit }: { commit: Commit }, payload) => {
+    const userId = payload.id;
+    const user = await queryById("users", userId);
+    commit("SET_USER", user);
   },
 };
 

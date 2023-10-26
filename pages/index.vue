@@ -1,11 +1,9 @@
 <template>
   <StatusCard />
-  <!-- New customer list -->
   <NewCustomers />
-  <!-- Charts -->
   <SalesChart />
-  <!-- Recent orders -->
   <RecentOrders />
+  <!-- <div>Home Page</div> -->
 </template>
 
 <script setup lang="ts">

@@ -3,7 +3,7 @@ export interface User {
   username: string;
   avatar: string;
   email: string;
-  password: string;
+  timestamp: number;
 }
 
 export interface UsersState {
@@ -18,7 +18,7 @@ const state: UsersState = {
     username: "",
     avatar: "",
     email: "",
-    password: "",
+    timestamp: 0
   },
 };
 

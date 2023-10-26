@@ -7,7 +7,7 @@
             <h1 class="lg:text-5xl text-3xl text-center font-extrabold text-[#1bd760]">
               Log in
             </h1>
-            <VeeForm :validation-schema="schema" @submit="handleRegisterSubmit" class="mt-10">
+            <VeeForm :validation-schema="schema" @submit="handleLogInSubmit" class="mt-10">
               <div class="mt-10">
                 <TextInput name="email" type="email" placeholder="Email" />
               </div>
@@ -46,7 +46,7 @@ const schema = yup.object({
 });
 
 
-const handleRegisterSubmit = async (values: any) => {
+const handleLogInSubmit = async (values: any) => {
   if (values) {
     const state = await store.dispatch("LOGIN", values)
     state && router.push({ path: "/" })
