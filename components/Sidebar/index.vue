@@ -31,9 +31,6 @@ const menu = [
     items: [
       { title: "List", route: "/" },
       { title: "Create", route: "/" },
-      { title: "Edit", route: "/" },
-      { title: "Delete", route: "/" },
-      { title: "Details", route: "/" },
     ],
   },
   {
@@ -41,8 +38,7 @@ const menu = [
     icon: "heroicons:user",
     items: [
       { title: "List", route: "/users" },
-      { title: "Create", route: "/users/add" },
-      { title: "Role", route: "/users" },
+      { title: "Role", route: "/roles" },
     ],
   },
 ];

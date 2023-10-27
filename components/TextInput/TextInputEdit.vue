@@ -1,6 +1,6 @@
 <template>
 
-  <Field :name="name" :type="type" class="
+  <Field :name="name" :type="type" :disabled="disable" class="
                   w-full
                   bg-[#EFF0EB]
                   text-gray-800
@@ -20,7 +20,12 @@ const props = defineProps<{
   name: string,
   type: string,
   placeholder: string,
+  value: any,
+  disable: boolean,
 }>()
+
+const { value } =useField(props.name, value => !!value);
+value.value = props.value
 </script>
 
 <style scoped></style>

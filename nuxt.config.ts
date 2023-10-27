@@ -1,13 +1,15 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  devtools: { enabled: false },
+  ssr: true,
   modules: [
     "@nuxtjs/tailwindcss",
     "nuxt-icon",
     "@vueuse/nuxt",
     "nuxt-headlessui",
     "@morev/vue-transitions/nuxt",
-    '@vee-validate/nuxt',
+    "@vee-validate/nuxt",
+    "@sidebase/nuxt-session",
   ],
   tailwindcss: { exposeConfig: true },
   headlessui: { prefix: "H" },
@@ -25,10 +27,12 @@ export default defineNuxtConfig({
   },
   $production: {
     routeRules: {
-      "/": { prerender: true },
-      "/login": { swr: 3600},
-      "/register": { swr: 3600},
-      "/users/": { swr: 3600},
+      "/": { prerender: true},
+      "/login": { swr: 3600, ssr: false},
+      "/register": { swr: 3600 },
+      "/users/": { swr: 3600 },
+      "/roles/": { swr: 3600 },
     },
   },
+  css: ["vue3-toastify/dist/index.css"],
 });

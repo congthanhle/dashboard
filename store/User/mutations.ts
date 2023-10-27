@@ -5,6 +5,9 @@ const mutations: MutationTree<UsersState> = {
   SET_USER: (state: UsersState, payload) => {
     state.user = payload;
   },
-
+  SET_USERS: (state: UsersState, payload) => {
+    state.users = payload;
+    
+  },
 };
 export default mutations;

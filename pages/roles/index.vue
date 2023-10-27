@@ -1,5 +1,5 @@
 <template>
-  <p class="font-bold">USERS</p>
+  <p class="font-bold">ROLES ACCESS</p>
   <div
     class="mt-5 overflow-x-auto rounded-md border bg-background scrollbar-thin scrollbar-thumb-input scrollbar-thumb-rounded-md">
     <TableData :columns="columns" :data="users" />
@@ -10,7 +10,7 @@
 definePageMeta({
   layout: "admin-layout"
 })
-const columns = [{ title: "", field: "avatar", type: "image" },{ title: "Username", field: "username", type: "text" }, { title: "Email", field: "email", type: "text" }, { title: "Role", field: "role", type: "text" }];
+const columns = [{ title: "Role", type: "rolename" }, { title: "Access", type: "access" }, { title: "Color", type: "color" },];
 const { data: users } = useFetch('/api/users');
 
 </script>

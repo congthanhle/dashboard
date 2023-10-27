@@ -18,7 +18,9 @@
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.8.0",
+    "@sidebase/nuxt-session": "^0.2.7",
     "@types/chart.js": "^2.9.39",
+    "@types/lodash": "^4.14.200",
     "@types/node": "^20.8.7",
     "@types/prettier": "^3.0.0",
     "nuxt": "^3.8.0",
@@ -31,10 +33,14 @@
     "@vee-validate/nuxt": "^4.11.8",
     "@vueuse/nuxt": "^10.5.0",
     "chart.js": "^4.4.0",
+    "cookie-universal-nuxt": "^2.2.2",
+    "cookieparser": "^0.1.0",
     "firebase": "^10.5.0",
+    "lodash": "^4.17.21",
     "nuxt-headlessui": "^1.1.4",
     "nuxt-icon": "^0.5.0",
     "vue-chartjs": "^5.2.0",
+    "vue3-toastify": "^0.1.14",
     "vuex": "^4.1.0",
     "yup": "^1.3.2"
   }

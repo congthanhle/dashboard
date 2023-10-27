@@ -9,7 +9,7 @@ import {
   deleteDoc,
   onSnapshot,
 } from "firebase/firestore";
-import { database } from "~/server/lib/firebase";
+import { database} from "~/server/lib/firebase";
 
 export const queryByCollection = async (col: string) => {
   const colRef = collection(database, col);

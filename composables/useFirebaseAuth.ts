@@ -21,6 +21,9 @@ export default function () {
           avatar:
             "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1032.jpg",
           timestamp: new Date().getTime(),
+          phoneNumber: "",
+          address: "",
+          role: "admin"
         };
         store.dispatch("ADD_USER", userData);
         return true;
@@ -46,9 +49,10 @@ export default function () {
     }
     return false;
   };
-  const signOutUser = async (): Promise<boolean> => {
+  const signOutUser = (): boolean => {
     try {
-      await signOut(auth);
+      auth.signOut()
+      console.log("Sign out")
       return true;
     } catch (error: any) {
       return false;

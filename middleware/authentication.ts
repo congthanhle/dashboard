@@ -1,7 +1,10 @@
-import store from '~/store'
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "~/server/lib/firebase";
 export default defineNuxtRouteMiddleware((to, from) => {
-  const userId = store.getters.USER.id
-  // if (!userId) {
-  //   return navigateTo('/login')
+  // onAuthStateChanged(auth, (user: any) => {
+  //   return user
+  // });
+  // if(state){
+  //   return navigateTo("/login");
   // }
 });

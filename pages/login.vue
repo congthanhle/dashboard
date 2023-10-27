@@ -1,4 +1,5 @@
 <template>
+  <div v-if="loading" class="fixed left-0 top-0 h-0.5 w-full z-50 bg-green-500"></div>
   <div class="h-screen w-full flex justify-center bg-black">
     <div class="lg:pt-7 pt-3 lg:px-12 px-6 lg:w-2/3 w-full lg:min-w-[800px]">
       <main class="w-full">
@@ -9,14 +10,14 @@
             </h1>
             <VeeForm :validation-schema="schema" @submit="handleLogInSubmit" class="mt-10">
               <div class="mt-10">
-                <TextInput name="email" type="email" placeholder="Email" />
+                <TextInput name="email" type="email" placeholder="Email"  />
               </div>
               <div class="mt-10">
                 <TextInput name="password" type="password" placeholder="Password" />
               </div>
               <div class="mt-12">
-                <button type="submit"
-                  class="bg-[#1bd760] hover:bg-green-800 rounded-full w-full p-3 text-white font-bold py-2 px-4 rounded">
+                <button type="submit" :disabled="loadingSubmitBtn"
+                  class="bg-[#1bd760] disabled:opacity-50 hover:bg-green-800 rounded-full w-full p-3 text-white font-bold py-2 px-4 rounded">
                   Sign in
                 </button>
               </div>
@@ -37,22 +38,49 @@
 <script setup lang="ts">
 import * as yup from 'yup';
 import { Form as VeeForm } from 'vee-validate';
+import { toast } from 'vue3-toastify';
+import store from '~/store';
+const nuxtApp = useNuxtApp();
 const router = useRouter();
-import store from '~/store'
+const loading = ref(false);
+const loadingSubmitBtn = ref(false);
 
 const schema = yup.object({
   email: yup.string().required('Email is required').email("This field must be a valid email"),
   password: yup.string().required('Password is required').min(3, "Password must be at least 3 characters"),
 });
-
-
-const handleLogInSubmit = async (values: any) => {
+const toastLoadingId = 'toast-loading';
+const toastErrorId = 'toast-error';
+const handleLogInSubmit = async function (values: any) {
+  toast.loading("Please wait...", {
+    position: toast.POSITION.TOP_CENTER,
+    closeButton: false,
+    toastId: toastLoadingId
+  });
+  loadingSubmitBtn.value = true;
   if (values) {
     const state = await store.dispatch("LOGIN", values)
-    state && router.push({ path: "/" })
+    if (state) {
+      router.push({ path: "/" })
+    }
+    else {
+      toast.remove(toastLoadingId);
+      toast.error("Invalid email or password", {
+        closeButton: false,
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 500,
+        toastId: toastErrorId
+      });
+      setTimeout(() => { loadingSubmitBtn.value = false }, 1000)
+    }
   }
 }
-
+nuxtApp.hook("page:start", () => {
+  loading.value = true;
+});
+nuxtApp.hook("page:finish", () => {
+  loading.value = false;
+});
 </script>
 
 <style scoped></style>
