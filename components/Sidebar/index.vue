@@ -17,8 +17,9 @@
 </template>
 
 <script setup lang="ts">
-import store from '~/store';
+
 const router = useRouter()
+const {signOutUser} = useFirebaseAuth();
 const menu = [
   {
     title: "Dashboard",
@@ -30,7 +31,6 @@ const menu = [
     icon: "heroicons:cube",
     items: [
       { title: "List", route: "/products" },
-      { title: "Create", route: "/" },
     ],
   },
   {
@@ -38,12 +38,11 @@ const menu = [
     icon: "heroicons:user",
     items: [
       { title: "List", route: "/users" },
-      { title: "Role", route: "/roles" },
     ],
   },
 ];
 const handleLogout = async () => {
-  const logOut = await store.dispatch("LOGOUT")
+  const logOut = signOutUser();
   logOut && router.push("/login")
 }
 </script>

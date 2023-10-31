@@ -41,7 +41,6 @@
   <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true"
   v-if="!btnToggleDelete">
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
       <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
         <div
@@ -77,9 +76,8 @@
 </template>
 
 <script setup lang="ts">
-import store from '~/store';
 
-const emits = defineEmits(["handleEditBtn"])
+const emits = defineEmits(["handleEditBtn", "handleDeleteBtn"])
 const props = defineProps<{
   columns: any,
   data: any,
@@ -93,17 +91,19 @@ const itemDelete = ref("")
 const handleDeleteBtn = (id: any) => {
   btnToggleDelete.value = false
   itemDelete.value = id;
+  emits("handleDeleteBtn", id)
 }
 
-const handleDeleteItem = () => {
+const handleDeleteItem = async () => {
   btnToggleDelete.value = true;
   itemsData.value = itemsData.value.filter((item: any) => item.id !== itemDelete.value)
-  store.dispatch("DELETE_USER", itemDelete.value)
 }
 
 const handleEditBtn = async (id: any) => {
   emits('handleEditBtn', id)
 }
+
+
 </script>
 
 <style scoped></style>

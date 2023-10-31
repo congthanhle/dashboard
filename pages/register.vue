@@ -43,8 +43,8 @@
 <script setup lang="ts">
 import { Form as VeeForm } from 'vee-validate';
 import * as yup from 'yup';
-import store from '~/store';
 
+const {registerUser} = useFirebaseAuth();
 const router = useRouter();
 
 const schema = yup.object({
@@ -55,7 +55,7 @@ const schema = yup.object({
 });
 const handleRegisterSubmit = async (values: any) => {
   if (values) {
-    const state = await store.dispatch("REGISTER", values)
+    const state = await registerUser( values)
     state && router.push({ path: "/login" })
   }
 }

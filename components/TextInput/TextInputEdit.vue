@@ -1,6 +1,6 @@
 <template>
 
-  <Field :name="name" :type="type" :disabled="disable" class="
+  <Field :as="type=='textarea'?'textarea':''" :name="name" :type="type" :disabled="disable" class="
                   w-full
                   bg-[#EFF0EB]
                   text-gray-800

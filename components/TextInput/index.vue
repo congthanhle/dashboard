@@ -1,10 +1,10 @@
 <template>
 
-  <Field :name="name" :type="type" class="
+  <Field :as="type=='textarea'?'textarea':''" :name="name" :type="type" class="
                   w-full
                   bg-[#EFF0EB]
                   text-gray-800
-                  border-4
+                  border-2
                   text-sm
                   border-[#EFF0EB]
                   rounded-xl

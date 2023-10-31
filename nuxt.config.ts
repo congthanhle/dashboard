@@ -1,7 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: false },
-  ssr: true,
   modules: [
     "@nuxtjs/tailwindcss",
     "nuxt-icon",
@@ -31,7 +30,6 @@ export default defineNuxtConfig({
       "/login": { swr: 3600, ssr: false},
       "/register": { swr: 3600 },
       "/users/": { swr: 3600 },
-      "/roles/": { swr: 3600 },
       "/products/": { swr: 3600 },
     },
   },

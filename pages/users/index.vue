@@ -17,7 +17,7 @@
                 <label class="cursor-pointer">
                   <div class="relative  ">
                     <div class="w-28 h-28 overflow-hidden rounded-full border-2 border-white border-solid rounded-circle">
-                      <img class="object-cover w-full h-full" :src="user?.avatar" alt="profile image">
+                      <img class="object-cover w-full h-full" :src="user?.avatar == '' ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png' : user?.avatar" alt="profile image">
                     </div>
                     <div
                       class="h-6 w-6 flex items-center justify-center absolute right-0 bottom-0 mb-2 mr-2 text-white bg-green-500 rounded-full">
@@ -72,12 +72,14 @@
 <script setup lang="ts">
 import { Form as VeeForm } from 'vee-validate';
 import * as yup from 'yup';
-import store from '~/store';
 import { toast } from 'vue3-toastify';
 
 definePageMeta({
   layout: "admin-layout"
 })
+
+const {getUser, editUser} = useUsers();
+
 const user = ref<any>()
 const btnToggleEdit = ref(true);
 const loadingSaveBtn = ref(false);
@@ -98,7 +100,7 @@ const toastSuccessId = 'toast-success';
 const { data: users } = await useFetch('/api/users');
 
 const handleBtnEdit = async (id: any) => {
-  const userData = await store.dispatch("GET_USER", { id })
+  const userData = await getUser(id);
   user.value = userData
   btnToggleEdit.value = false;
 }
@@ -120,7 +122,7 @@ const handleEditSubmit = async function (values: any) {
     toastId: toastLoadingId
   });
   if (values) {
-    const state = await store.dispatch("EDIT_USER", { id, avatarFile, ...values });
+    const state = await editUser({ id, avatarFile, ...values });
     if (state) {
       toast.remove(toastLoadingId);
       toast.success("Update successful!", {

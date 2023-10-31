@@ -1,5 +1,5 @@
 import { query } from "~/server/lib/firestore";
-import type { User } from "~/store/User/state";
+import type { User } from "~/datatypes/User";
 
 let dataProducts: User[] = [];
 

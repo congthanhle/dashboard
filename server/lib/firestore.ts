@@ -45,7 +45,7 @@ export const queryById = async (col: string, id: string) => {
   return { id, ...docSnap.data() };
 };
 
-export const addItem = async (col: string, document: Object, id: string) => {
+export const addItem = async (col: string, document: Object, id: string | null = null) => {
   const colRef = collection(database, col);
   const docRef = id ? await setDoc(doc(colRef, id), document) : await addDoc(colRef, document);
   return docRef;
@@ -65,12 +65,10 @@ export const deleteItem = async (col: string, id: string) => {
 
 export const uploadFileImage = async (file: File, path: string, id: string) => {
   return new Promise((resolve, reject) => {
-    
     const metadata = {
       cacheControl: "public,max-age=300",
       contentType: "image",
     };
-    
     const imageFile = { url: "" };
     const pathImg = path + "/" + id + Date.now();
     const storageRef = refStorage(storage, pathImg);

@@ -8,13 +8,23 @@ import {
 } from "~/server/lib/firestore";
 
 export default function () {
-  const addProduct = (payload: any) => {
-    const { id, ...doc } = payload;
-    addItem("products", doc, id);
+  const addProduct = async (payload: any) => {
+    const path = "products";
+    const timestamp = new Date().getTime();
+    const state = await uploadFileImage(payload.imageFile, path, payload.id)
+      .then((downloadURL) => {
+        const imageUrl = downloadURL;
+        const {imageFile, ...info } = payload;
+        const addState = addItem("products", {imageUrl, timestamp, ...info});
+        return addState;
+      })
+      .catch((error) => {
+        return error
+      });
+    return state
   };
-  const getProduct = async (payload: any) => {
-    const productId = payload.id;
-    const product = await queryById("products", productId);
+  const getProduct = async (id: string) => {
+    const product = await queryById("products", id);
     return product;
   };
   const fetchProducts = async () => {
@@ -23,10 +33,10 @@ export default function () {
   };
   const editProduct = async (payload: any) => {
     const path = "products";
-    const state = await uploadFileImage(payload.avatarFile, path, payload.id)
+    const state = await uploadFileImage(payload.imageFile, path, payload.id)
       .then((downloadURL) => {
         const imageUrl = downloadURL;
-        const { id, image, ...info } = payload;
+        const {id, imageFile, ...info } = payload;
         const editState = editItem("products", id, { imageUrl, ...info });
         return editState;
       })

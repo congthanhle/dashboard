@@ -2,11 +2,10 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   getAuth,
-  signOut,
-  deleteUser
 } from "firebase/auth";
+import { addItem } from "~/server/lib/firestore";
 import { auth } from "~/server/lib/firebase";
-import store from "~/store";
+const {addUser} = useUsers();
 
 export default function () {
   const registerUser = async (payload: any): Promise<boolean> => {
@@ -26,7 +25,7 @@ export default function () {
           address: "",
           role: "admin"
         };
-        store.dispatch("ADD_USER", userData);
+        addItem("users", userData, userData.id);
         return true;
       }
     } catch (error: any) {
@@ -42,7 +41,6 @@ export default function () {
         const userData = {
           id: user.uid,
         };
-        await store.dispatch("GET_USER", userData);
         return true;
       }
     } catch (error: any) {
@@ -53,7 +51,7 @@ export default function () {
   const signOutUser = (): boolean => {
     try {
       auth.signOut()
-      console.log("Sign out")
+      document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       return true;
     } catch (error: any) {
       return false;

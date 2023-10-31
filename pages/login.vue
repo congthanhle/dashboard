@@ -39,12 +39,11 @@
 import * as yup from 'yup';
 import { Form as VeeForm } from 'vee-validate';
 import { toast } from 'vue3-toastify';
-import store from '~/store';
 const nuxtApp = useNuxtApp();
 const router = useRouter();
 const loading = ref(false);
 const loadingSubmitBtn = ref(false);
-
+const {logInUser} = useFirebaseAuth();
 const schema = yup.object({
   email: yup.string().required('Email is required').email("This field must be a valid email"),
   password: yup.string().required('Password is required').min(3, "Password must be at least 3 characters"),
@@ -59,7 +58,8 @@ const handleLogInSubmit = async function (values: any) {
   });
   loadingSubmitBtn.value = true;
   if (values) {
-    const state = await store.dispatch("LOGIN", values)
+    const {email, password} = values;
+    const state = await logInUser(email, password);
     if (state) {
       router.push({ path: "/" })
     }

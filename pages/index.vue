@@ -1,13 +1,8 @@
 <template>
-  <!-- <StatusCard />
-  <NewCustomers />
-  <SalesChart />
-  <RecentOrders /> -->
   <div>Home Page</div>
 </template>
 
 <script setup lang="ts">
-import store from '~/store';
 definePageMeta({
   layout: "admin-layout",
   middleware: "authentication",
