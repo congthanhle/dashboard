@@ -29,7 +29,7 @@ const menu = [
     title: "Products",
     icon: "heroicons:cube",
     items: [
-      { title: "List", route: "/" },
+      { title: "List", route: "/products" },
       { title: "Create", route: "/" },
     ],
   },

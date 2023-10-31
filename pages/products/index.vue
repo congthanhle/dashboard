@@ -1,8 +1,8 @@
 <template>
-  <p class="font-bold">USERS</p>
+  <p class="font-bold uppercase">products</p>
   <div
     class="mt-5 overflow-x-auto rounded-md border bg-background scrollbar-thin scrollbar-thumb-input scrollbar-thumb-rounded-md">
-    <TableData :columns="columns" :data="users" type="user" @handleEditBtn="handleBtnEdit" />
+    <TableData :columns="columns" :data="products" type="user" @handleEditBtn="handleBtnEdit" />
   </div>
   <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true" v-if="!btnToggleEdit">
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
@@ -11,19 +11,18 @@
         <div
           class="relative transform overflow-hidden rounded-lg bg-black text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
           <div class="bg-white dark:bg-black px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-            <h3 class="dark:text-white">EDIT USER</h3>
+            <h3 class="dark:text-white">EDIT PRODUCT</h3>
             <div class="border-black/12.5 rounded-t-2xl p-6 text-center pt-0 pb-6 lg:pt-2 lg:pb-4">
               <div class="flex justify-center">
                 <label class="cursor-pointer">
                   <div class="relative  ">
-                    <div class="w-28 h-28 overflow-hidden rounded-full border-2 border-white border-solid rounded-circle">
+                    <div class="w-28 h-28 overflow-hidden rounded-full border-2 border-black dark:border-white border-solid rounded-circle">
                       <img class="object-cover w-full h-full" :src="user?.avatar" alt="profile image">
                     </div>
                     <div
                       class="h-6 w-6 flex items-center justify-center absolute right-0 bottom-0 mb-2 mr-2 text-white bg-green-500 rounded-full">
                       <Icon name="heroicons:camera" class="text-sỉze" />
                     </div>
-
                   </div>
                   <input type='file' class="hidden" v-on:change="previewFiles" />
                 </label>
@@ -74,7 +73,6 @@ import { Form as VeeForm } from 'vee-validate';
 import * as yup from 'yup';
 import store from '~/store';
 import { toast } from 'vue3-toastify';
-
 definePageMeta({
   layout: "admin-layout"
 })
@@ -87,15 +85,14 @@ const schema = yup.object({
   username: yup.string().required('Username is required')
 });
 const columns = [
-  { title: "", field: "avatar", type: "image" },
-  { title: "Username", field: "username", type: "text" },
-  { title: "Email", field: "email", type: "text" },
-  { title: "Role", field: "role", type: "text" }
+  { title: "", field: "imageUrl", type: "image" },
+  { title: "Name", field: "name", type: "text" },
+  { title: "Price", field: "price", type: "text" },
 ];
 const toastLoadingId = 'toast-loading';
 const toastErrorId = 'toast-error';
 const toastSuccessId = 'toast-success';
-const { data: users } = await useFetch('/api/users');
+const { data: products } = await useFetch('/api/products');
 
 const handleBtnEdit = async (id: any) => {
   const userData = await store.dispatch("GET_USER", { id })

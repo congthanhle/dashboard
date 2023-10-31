@@ -1,4 +1,4 @@
-import { queryByCollection, query } from "~/server/lib/firestore";
+import { query } from "~/server/lib/firestore";
 import type { User } from "~/store/User/state";
 
 let dataProducts: User[] = [];

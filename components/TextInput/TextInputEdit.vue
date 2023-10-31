@@ -25,7 +25,7 @@ const props = defineProps<{
 }>()
 
 const { value } =useField(props.name, value => !!value);
-value.value = props.value
+value.value = props.value  
 </script>
 
 <style scoped></style>

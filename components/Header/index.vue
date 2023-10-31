@@ -29,7 +29,7 @@
             class="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border bg-background"
           >
             <img
-              :src="user.avatar"
+              :src="user?.avatar"
               alt="Logged in user"
               class="h-full w-full"
             />

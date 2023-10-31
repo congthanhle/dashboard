@@ -4,7 +4,7 @@
                   w-full
                   bg-[#EFF0EB]
                   text-gray-800
-                  border-2
+                  border-4
                   text-sm
                   border-[#EFF0EB]
                   rounded-xl

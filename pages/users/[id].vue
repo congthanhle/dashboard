@@ -17,7 +17,7 @@
                 <div class="mb-4">
                   <label for="username"
                     class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Username</label>
-                  <TextInputEdit name="username" type="text" placeholder="" :value="user?.username" :disable="false" />
+                  <TextInputEdit name="username" type="text" placeholder="" value="user?.username" :disable="false" />
                 </div>
               </div>
               <div class="w-full max-w-full px-3 shrink-0 md:w-6/12 md:flex-0">
@@ -99,9 +99,10 @@ const previewFiles = (event: any) =>  {
 const { id } = useRoute().params;
 const { data } = await useFetch(`/api/users/${id}`);
 const user = data as unknown as User;
-
+console.log(user)
 const schema = yup.object({
   username: yup.string().required('Username is required')
+  
 });
 
 const toastSuccessId = 'toast-success';
@@ -115,7 +116,7 @@ const handleEditSubmit = debounce(async function (values: any) {
       toast.success("Update successful!", {
         closeButton: false,
         position: toast.POSITION.TOP_CENTER,
-        autoClose: 400,
+        autoClose: 300,
         toastId: toastSuccessId,
       });
       setTimeout(() => loadingSaveBtn.value = false, 1200);
@@ -132,7 +133,7 @@ const handleEditSubmit = debounce(async function (values: any) {
     }
   }
 
-}, 300)
+}, 200)
 </script>
 
 <style scoped></style>

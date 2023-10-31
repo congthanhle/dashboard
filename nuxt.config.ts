@@ -32,6 +32,7 @@ export default defineNuxtConfig({
       "/register": { swr: 3600 },
       "/users/": { swr: 3600 },
       "/roles/": { swr: 3600 },
+      "/products/": { swr: 3600 },
     },
   },
   css: ["vue3-toastify/dist/index.css"],

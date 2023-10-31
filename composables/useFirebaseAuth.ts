@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   signOut,
+  deleteUser
 } from "firebase/auth";
 import { auth } from "~/server/lib/firebase";
 import store from "~/store";
@@ -58,10 +59,13 @@ export default function () {
       return false;
     }
   };
-
+  const deleteUser = (id: any) => {
+    deleteUser(id)
+  }
   return {
     logInUser,
     registerUser,
-    signOutUser
+    signOutUser,
+    deleteUser
   };
 }

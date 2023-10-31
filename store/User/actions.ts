@@ -5,13 +5,12 @@ import {
   queryByCollection,
   addItem,
   editItem,
-  deleteItem,
   queryById,
-  query,
+  uploadFileImage,
 } from "~/server/lib/firestore";
+import { refStorage, storage } from "~/server/lib/firebase";
 
-
-const { logInUser, registerUser, signOutUser } = useFirebaseAuth();
+const { logInUser, registerUser, signOutUser, deleteUser } = useFirebaseAuth();
 const actions: ActionTree<UsersState, RootState> = {
   LOGIN: ({ commit }: { commit: Commit }, payload) => {
     const { email, password } = payload;
@@ -24,7 +23,7 @@ const actions: ActionTree<UsersState, RootState> = {
       username: "",
       avatar: "",
       email: "",
-      timestamp: 0, 
+      timestamp: 0,
     };
     const state = signOutUser();
     document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -44,17 +43,29 @@ const actions: ActionTree<UsersState, RootState> = {
     const user = await queryById("users", userId);
     document.cookie = "user=" + JSON.stringify(user);
     commit("SET_USER", user);
-    return user
+    return user;
   },
   FETCH_USERS: async ({ commit }: { commit: Commit }) => {
-    const users = await queryByCollection('users')
+    const users = await queryByCollection("users");
     commit("SET_USERS", users);
   },
-  EDIT_USER: ({ commit }: { commit: Commit }, payload) => {
-    const editState = editItem("users", payload.id, payload);
-    return editState;
+  EDIT_USER: async({ commit }: { commit: Commit }, payload) => {
+    const path = "users/avatar";
+    const state = await uploadFileImage(payload.avatarFile, path, payload.id)
+      .then((downloadURL) => {
+        const avatar = downloadURL;
+        const { id, avatarFile, ...info } = payload;
+        const editState = editItem("users", id, { avatar, ...info });
+        return editState;
+      })
+      .catch((error) => {
+        return error
+      });
+    return state
   },
-
+  DELETE_USER: ({ commit }: { commit: Commit }, id) => {
+    deleteUser(id);
+  },
 };
 
 export default actions;
