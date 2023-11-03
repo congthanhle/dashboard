@@ -131,7 +131,8 @@ const handleEditSubmit = async function (values: any) {
         autoClose: 500,
         toastId: toastSuccessId
       });
-      setTimeout(() => { loadingSaveBtn.value = false; btnToggleEdit.value = true; }, 500);
+      setTimeout(() => { loadingSaveBtn.value = false; btnToggleEdit.value = true;}, 500);
+
     }
     else {
       toast.remove(toastLoadingId);

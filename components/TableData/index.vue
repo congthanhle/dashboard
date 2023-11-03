@@ -9,9 +9,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(item, index) in itemsData" :key="index"
+      <tr v-for="(item, index) in paginatedItems" :key="index"
         class="border-b text-left text-sm last:border-b-0 hover:bg-muted">
-        <td class="p-4">{{ index + 1 }}</td>
+        <td class="p-4">{{ currentPage * (index + 1) }}</td>
         <td class="p-4" v-for="(column, idx) in columns" :key="idx">
           <div v-if="column.type != 'image'">
             {{ item[column.field] }}
@@ -23,12 +23,12 @@
         </td>
         <td class="p-4">
           <div class="flex items-center gap-3">
-            <button @click="handleEditBtn(item?.id)"
+            <button @click="handleEditBtn(item?.id)" 
               class="bg-[#1bd760] text-white hover:bg-green-700 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
               type="button">
               <Icon name="heroicons:pencil" class="h-4 w-4" />
             </button>
-            <button @click="handleDeleteBtn(item?.id)"
+            <button @click="handleDeleteBtn(item?.id)" v-if="!(type == 'user' && currentUser?.id == item?.id)"
               class="bg-pink-500 text-white hover:bg-pink-700 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
               type="button">
               <Icon name="heroicons:trash" class="h-4 w-4" />
@@ -38,8 +38,23 @@
       </tr>
     </tbody>
   </table>
-  <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true"
-  v-if="!btnToggleDelete">
+  <div class=" p-4 border-t  flex items-center justify-center">
+    <div class="inline-flex">
+      <button class="border border-[#1bd760] border-r-0 text-[#1bd760] font-bold py-2 px-4 rounded-l "
+        :disabled="currentPage === 1" @click="prevPage">
+        <Icon name="heroicons:backward" class="h-5 w-5" />
+      </button>
+      <span class="bg-transparent text-[#1bd760] font-semibold py-2 px-4 border border-[#1bd760]  ">
+        {{ currentPage }} / {{ Math.ceil(itemsData.length / itemsPerPage) }}
+      </span>
+      <button class=" border border-[#1bd760] border-l-0 text-[#1bd760] font-bold py-2 px-4 rounded-r"
+        :disabled="currentPage === itemsData.length - 1" @click="nextPage">
+        <Icon name="heroicons:forward" class="h-5 w-5" />
+      </button>
+    </div>
+  </div>
+
+  <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true" v-if="!btnToggleDelete">
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
       <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
@@ -76,17 +91,36 @@
 </template>
 
 <script setup lang="ts">
-
+const {deleteUser} = useUsers();
 const emits = defineEmits(["handleEditBtn", "handleDeleteBtn"])
 const props = defineProps<{
   columns: any,
   data: any,
   type: string
 }>()
-const btnToggleDelete = ref(true);
-
 const itemsData = ref(props.data);
 const itemDelete = ref("")
+const btnToggleDelete = ref(true);
+const currentUser: any = useCookie("user");
+
+const currentPage = ref(1);
+const itemsPerPage = ref(5);
+const paginatedItems = computed(() => {
+  const startIndex = (currentPage.value - 1) * itemsPerPage.value;
+  const endIndex = startIndex + itemsPerPage.value;
+  return itemsData.value.slice(startIndex, endIndex);
+})
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value -= 1;
+  }
+}
+const nextPage = () => {
+  const maxPage = Math.ceil(itemsData.value.length / itemsPerPage.value);
+  if (currentPage.value < maxPage) {
+    currentPage.value += 1;
+  }
+}
 
 const handleDeleteBtn = (id: any) => {
   btnToggleDelete.value = false
@@ -101,6 +135,7 @@ const handleDeleteItem = async () => {
 
 const handleEditBtn = async (id: any) => {
   emits('handleEditBtn', id)
+  deleteUser(id)
 }
 
 

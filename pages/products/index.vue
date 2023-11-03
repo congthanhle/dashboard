@@ -87,6 +87,7 @@ const product = ref<any>({
   description: "",
   imageUrl: ""
 })
+
 const modalMode = ref<string>("");
 const btnToggleEdit = ref(true);
 const loadingSaveBtn = ref(false);
@@ -109,15 +110,18 @@ const toastSuccessId = 'toast-success';
 const { data: products } = await useFetch('/api/products');
 
 const handleAddBtn = () => {
-  modalMode.value = "add"
+  product.value.imageUrl = ""
+  modalMode.value = "add";
   btnToggleEdit.value = false;
 }
+
 const handleBtnEdit = async (id: string) => {
   const productData = await getProduct(id);
   modalMode.value = "edit"
   product.value = productData
   btnToggleEdit.value = false;
 }
+
 const previewFiles = (event: any) => {
   let reader = new FileReader();
   reader.onload = (e: any) => {
@@ -138,6 +142,7 @@ const handleEditSubmit = async function (values: any) {
   });
   if (values) {
     if (modalMode.value == "add") {
+      
       const newProduct = {imageFile, ...values}
       const state = await addProduct(newProduct);
       if (state) {
@@ -171,7 +176,7 @@ const handleEditSubmit = async function (values: any) {
           autoClose: 500,
           toastId: toastSuccessId
         });
-        setTimeout(() => { loadingSaveBtn.value = false; btnToggleEdit.value = true; }, 500);
+        setTimeout(() => { loadingSaveBtn.value = false; btnToggleEdit.value = true;}, 500);
       }
       else {
         toast.remove(toastLoadingId);
